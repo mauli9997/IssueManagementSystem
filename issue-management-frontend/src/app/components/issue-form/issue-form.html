@@ -1,0 +1,85 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+          <h4 class="mb-0">Create New Issue</h4>
+        </div>
+
+        <div class="card-body p-4">
+
+          <form (ngSubmit)="submit()">
+
+            <!-- Title -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Issue Title</label>
+              <input type="text"
+                     class="form-control"
+                     [(ngModel)]="issue.title"
+                     name="title"
+                     placeholder="Enter issue title"
+                     required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Description</label>
+              <textarea class="form-control"
+                        rows="3"
+                        [(ngModel)]="issue.description"
+                        name="description"
+                        placeholder="Enter issue description">
+              </textarea>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Priority</label>
+              <select class="form-select"
+                      [(ngModel)]="issue.priority"
+                      name="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Status</label>
+              <select class="form-select"
+                      [(ngModel)]="issue.status"
+                      name="status">
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+
+            <!-- Assignee -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Assignee</label>
+              <input type="text"
+                     class="form-control"
+                     [(ngModel)]="issue.assignee"
+                     name="assignee"
+                     placeholder="Enter assignee name">
+            </div>
+
+            <!-- Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                Create Issue
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

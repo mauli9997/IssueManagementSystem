@@ -1,0 +1,175 @@
+<div class="container-fluid mt-4">
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">Issue Management System</h2>
+    <p class="text-muted">Manage and track project issues efficiently</p>
+  </div>
+
+  <!-- Issue Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <app-issue-form (refresh)="loadIssues()"></app-issue-form>
+    </div>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Filter by Priority</label>
+          <select class="form-select" (change)="filterPriority($event)">
+            <option value="">All Priorities</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Filter by Status</label>
+          <select class="form-select" (change)="filterStatus($event)">
+            <option value="">All Status</option>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issues Table -->
+  <div class="card shadow-sm">
+    <div class="card-body table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Assignee</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let issue of issues">
+            <td>{{ issue.id }}</td>
+            <td class="fw-semibold">{{ issue.title }}</td>
+            <td>{{ issue.description }}</td>
+
+            <!-- Priority Badge -->
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': issue.priority === 'Low',
+                      'bg-warning text-dark': issue.priority === 'Medium',
+                      'bg-danger': issue.priority === 'High'
+                    }">
+                {{ issue.priority }}
+              </span>
+            </td>
+
+            <!-- Status Badge -->
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-primary': issue.status === 'Open',
+                      'bg-info text-dark': issue.status === 'In Progress',
+                      'bg-success': issue.status === 'Resolved',
+                      'bg-secondary': issue.status === 'Closed'
+                    }">
+                {{ issue.status }}
+              </span>
+            </td>
+
+            <td>{{ issue.createdDate | date:'short' }}</td>
+            <td>{{ issue.updatedDate | date:'short' }}</td>
+            <td>{{ issue.assignee }}</td>
+
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2"
+                      (click)="startEdit(issue)">
+                Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger"
+                      (click)="deleteIssue(issue.id!)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Update Issue Section -->
+  <div *ngIf="selectedIssue" class="card shadow-sm mt-4">
+    <div class="card-header bg-warning text-dark fw-semibold">
+      Update Issue
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label class="form-label">Title</label>
+          <input class="form-control"
+                 [(ngModel)]="selectedIssue.title"
+                 placeholder="Title">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Assignee</label>
+          <input class="form-control"
+                 [(ngModel)]="selectedIssue.assignee"
+                 placeholder="Assignee">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Description</label>
+          <input class="form-control"
+                 [(ngModel)]="selectedIssue.description"
+                 placeholder="Description">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Priority</label>
+          <select class="form-select"
+                  [(ngModel)]="selectedIssue.priority">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Status</label>
+          <select class="form-select"
+                  [(ngModel)]="selectedIssue.status">
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="mt-4 text-end">
+        <button class="btn btn-warning px-4"
+                (click)="updateIssue()">
+          Update Issue
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
